@@ -102,6 +102,9 @@ type OptionConverter() =
 
     match reader.TokenType with
     | JsonToken.Null        -> FSharpValue.MakeUnion(none,null)
+    | JsonToken.String      -> FSharpValue.MakeUnion(some,[|reader.Value|])
+    | JsonToken.Boolean      -> FSharpValue.MakeUnion(some,[|reader.Value|])
+    | JsonToken.Integer      -> FSharpValue.MakeUnion(some,[|reader.Value|])
     | JsonToken.StartObject ->
         // read all key/value pairs, reifying with tuple field types
         match readProperties() with
