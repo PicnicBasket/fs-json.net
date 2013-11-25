@@ -56,19 +56,19 @@ type OptionConverter() =
     | IsNone    ->  writer.WriteNull() 
                     //TODO: investigate the relevance 
                     //      of JSON.NET's NullHandling options
-    | IsSome(v) ->  writer.WriteStartObject()
+    | IsSome(v) ->  // writer.WriteStartObject()
               
                     // emit "system" metadata, if necessary
-                    if serializer.IsTracking then 
-                      writer.WriteIndentity(serializer,value)
+                    // if serializer.IsTracking then 
+                    //  writer.WriteIndentity(serializer,value)
               
-                    writer.WritePropertyName(FS_VALUE)
+                    // writer.WritePropertyName(FS_VALUE)
                     // emit value, or reference thereto, if necessary
                     if serializer.HasReference(v) 
                       then  writer.WriteReference(serializer,v)
                       else  serializer.Serialize(writer,v)
               
-                    writer.WriteEndObject()
+                    // writer.WriteEndObject()
     
   override __.ReadJson(reader,vType,_,serializer) = 
     let decode,decode',advance,readName = makeHelpers reader serializer

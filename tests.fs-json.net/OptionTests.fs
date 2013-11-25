@@ -37,8 +37,8 @@ module OptionTests =
       JsonConvert.DeserializeObject<'t>(v,converters)
 
     [<Test>]
-    let ``Can encode option values`` () : unit =
-        let stringResult = toJSON {
+    let ``Can round trip option values`` () : unit =
+        let value = {
                             Name = Some "Foo"
                             Age = Some 31L
                             Male = Some true
@@ -48,7 +48,9 @@ module OptionTests =
                                     SmallParts = [{ Name = "engine"}]
                                 }
                            }
-        stringResult |> ignore
+        let stringResult = toJSON value
+        let result : Widget = ofJSON stringResult
+        result |> should equal value
 
     [<Test>]
     let ``Primative value maps to Some`` () : unit =
