@@ -51,39 +51,6 @@ module OptionTests =
         stringResult |> ignore
 
     [<Test>]
-    let ``Can decode values that have Value property`` () : unit =
-        let sw = new System.IO.StringWriter()
-        fprintfn sw "{"
-        fprintfn sw "\"Name\": {"
-        fprintfn sw "\"Value\": \"Foo\""
-        fprintfn sw "},"
-        fprintfn sw "\"Age\": {"
-        fprintfn sw "\"Value\": 31"
-        fprintfn sw "},"
-        fprintfn sw " \"Male\": {"
-        fprintfn sw "\"Value\": true"
-        fprintfn sw " },"
-        fprintfn sw "\"Parts\": {"
-        fprintfn sw "\"Value\": {"
-        fprintfn sw "\"BigParts\": [],"
-        fprintfn sw "\"SmallParts\": ["
-        fprintfn sw "{"
-        fprintfn sw "  \"Name\": \"engine\""
-        fprintfn sw "}"
-
-
-        fprintfn sw "]"
-        fprintfn sw "}"
-        fprintfn sw "}"
-        fprintfn sw "}"
-
-        let result : Widget = ofJSON (sw.ToString())
-        result.Name |> should equal (Some "Foo") 
-        result.Age |> should equal (Some 31L) 
-        result.Male |> should equal (Some true) 
-        result.Parts |> should equal (Some { BigParts = List.empty; SmallParts = [ { Name = "engine" } ] }) 
-
-    [<Test>]
     let ``Primative value maps to Some`` () : unit =
         let result : Widget = ofJSON "{ \"name\": \"Foo\", \"age\": 31, \"male\": true, \"parts\": { \"bigParts\": [], \"smallParts\": [ { \"name\": \"engine\" } ] } }"
         result.Name |> should equal (Some "Foo") 
