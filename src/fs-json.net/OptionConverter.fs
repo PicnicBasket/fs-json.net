@@ -72,6 +72,8 @@ type OptionConverter() =
     
   override __.ReadJson(reader,vType,_,serializer) = 
     let decode,decode',advance,readName = makeHelpers reader serializer
+
+    let readCurrentName = reader.Value
     
     // type of actual data "wrapped" by option type
     let innerType = vType.GetGenericArguments() |> Seq.head
@@ -85,20 +87,20 @@ type OptionConverter() =
         | JsonToken.EndObject     -> pairs // no more pairs, return map
         | JsonToken.PropertyName  ->
             // get the key of the next key/value pair
-            let name  = readName ()
+            let name  = reader.Value |> string
             let value = match name with
                         // for "system" metadata, process normally
                         | JSON_ID 
-                        | JSON_REF -> decode()
+                        | JSON_REF -> advance(); decode()
                         // "Value" indicates option-type pair
-                        | FS_VALUE -> decode' innerType
-                        | _ -> reader |> invalidToken
+                        | FS_VALUE -> advance(); decode' innerType
+                        | _ -> decode' innerType //  reader |> invalidToken
             advance ()
             // add decoded key/value pair to map and continue to next pair
             readProps (pairs |> Map.add name value)
         | _ -> reader |> invalidToken
-      advance ()
-      readProps Map.empty
+      // advance ()
+      readProps (Map.empty |> Map.add (reader.Value |> string) (decode' innerType))
 
     match reader.TokenType with
     | JsonToken.Null        -> FSharpValue.MakeUnion(none,null)

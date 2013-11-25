@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+    <metadata>
+	<id>fs-json.net</id>
+	<title>fs-json.net</title>
+	<version>0.1.0.0</version>
+	<authors>Paulmichael Blasucci</authors>
+	<owners>Andrew Browne</owners>
+	<language>en-US</language>
+	<description>A library of tools to help F# and JSON.NET play nicely together</description>
+	<dependencies>
+	    <dependency id="Newtonsoft.Json" version="5.0.5" />
+	</dependencies>    
+    </metadata>
+    <files>
+	<file src="src\fs-json.net\bin\Release\fsjsonnet.dll" target="lib\net40" />
+    </files>
+</package>
