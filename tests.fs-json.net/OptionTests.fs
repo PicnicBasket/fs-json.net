@@ -2,6 +2,7 @@
 open Newtonsoft.Json
 open NUnit.Framework
 open Newtonsoft.Json.FSharp
+open System
 open FsUnit
 
 module OptionTests = 
@@ -19,6 +20,7 @@ module OptionTests =
         Name: string option
         Age: int64 option
         Male: bool option
+        DateOfBirth: DateTime option
         Parts: PartSet option
     }
 
@@ -42,6 +44,7 @@ module OptionTests =
                             Name = Some "Foo"
                             Age = Some 31L
                             Male = Some true
+                            DateOfBirth = Some (DateTime.Parse("2013-11-29T00:51:00Z"))
                             Parts = Some 
                                 {
                                     BigParts = []
@@ -54,9 +57,10 @@ module OptionTests =
 
     [<Test>]
     let ``Primative value maps to Some`` () : unit =
-        let result : Widget = ofJSON "{ \"name\": \"Foo\", \"age\": 31, \"male\": true, \"parts\": { \"bigParts\": [], \"smallParts\": [ { \"name\": \"engine\" } ] } }"
+        let result : Widget = ofJSON "{ \"name\": \"Foo\", \"age\": 31, \"dateOfBirth\": \"2013-11-29T00:51:00Z\", \"male\": true, \"parts\": { \"bigParts\": [], \"smallParts\": [ { \"name\": \"engine\" } ] } }"
         result.Name |> should equal (Some "Foo") 
         result.Age |> should equal (Some 31L) 
+        result.DateOfBirth |> should equal (Some (new DateTime(2013, 11, 29,00, 51, 0, 0, DateTimeKind.Utc))) 
         result.Male |> should equal (Some true) 
         result.Parts |> should equal (Some { BigParts = List.empty; SmallParts = [ { Name = "engine" } ] }) 
 

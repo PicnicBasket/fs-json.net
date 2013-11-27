@@ -4,4 +4,4 @@
 *.docstates
 *.user
 _ReSharper*/*
-
+*.nupkg
