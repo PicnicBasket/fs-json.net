@@ -71,3 +71,23 @@ module OptionTests =
         result.Age |> should equal None
         result.Male |> should equal None
         result.Parts |> should equal None
+
+    [<Test>]
+    let ``Null values map to none`` () : unit =
+        let result : Widget = ofJSON "{ \"name\": null, \"age\": null, \"male\": null, \"parts\": null, \"dateOfBirth\": null }"
+        result.Name |> should equal None
+        result.Age |> should equal None
+        result.Male |> should equal None
+        result.Parts |> should equal None
+        result.DateOfBirth |> should equal None
+
+    type DateContainer = {
+        DateOfBirth: DateTime option
+    }
+
+    [<Test>]
+    let ``Null option<DateTime> maps to None`` () : unit =
+        let result : Widget = ofJSON "{ \"dateOfBirth\": null }"
+        match result.DateOfBirth with
+        | Some x -> Assert.Fail("Should have been None")
+        | None -> Assert.Pass()
