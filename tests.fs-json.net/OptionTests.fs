@@ -4,6 +4,7 @@ open NUnit.Framework
 open Newtonsoft.Json.FSharp
 open System
 open FsUnit
+open test.fs_json.net.csobjects
 
 module OptionTests = 
     
@@ -22,6 +23,10 @@ module OptionTests =
         Male: bool option
         DateOfBirth: DateTime option
         Parts: PartSet option
+    }
+
+    type WidgetWithId = {
+        Id: option<WidgetId>
     }
 
     let converters : JsonConverter[] = [| TupleConverter()
@@ -90,4 +95,11 @@ module OptionTests =
         let result : Widget = ofJSON "{ \"dateOfBirth\": null }"
         match result.DateOfBirth with
         | Some x -> Assert.Fail("Should have been None")
+        | None -> Assert.Pass()
+
+    [<Test>]
+    let ``Option of with TypeConverter Deserializes from string`` () : unit =
+        let result : WidgetWithId = ofJSON "{ \"Id\": \"279C2F78-1D6B-4331-A2B1-0DF87A958AE2\" }"
+        match result.Id with
+        | Some x -> Assert.AreEqual(Guid.Parse("279C2F78-1D6B-4331-A2B1-0DF87A958AE2"), x.Id)
         | None -> Assert.Pass()

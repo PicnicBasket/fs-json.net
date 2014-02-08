@@ -104,7 +104,7 @@ type OptionConverter() =
 
     match reader.TokenType with
     | JsonToken.Null        -> FSharpValue.MakeUnion(none,null)
-    | JsonToken.String      -> FSharpValue.MakeUnion(some,[|reader.Value|])
+    | JsonToken.String      -> FSharpValue.MakeUnion(some,[|serializer.Deserialize(reader,innerType)|])
     | JsonToken.Boolean     -> FSharpValue.MakeUnion(some,[|reader.Value|])
     | JsonToken.Integer     -> FSharpValue.MakeUnion(some,[|reader.Value|])
     | JsonToken.Date        -> FSharpValue.MakeUnion(some,[|reader.Value|])

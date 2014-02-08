@@ -69,6 +69,11 @@
       <Project>{aa512e07-10a0-42f1-80fa-dc3d59097b14}</Project>
       <Private>True</Private>
     </ProjectReference>
+    <ProjectReference Include="..\test.fs-json.net.csobjects\test.fs-json.net.csobjects.csproj">
+      <Name>test.fs-json.net.csobjects</Name>
+      <Project>{6fb4d696-565f-4d91-9456-13d06cc5f17e}</Project>
+      <Private>True</Private>
+    </ProjectReference>
   </ItemGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
